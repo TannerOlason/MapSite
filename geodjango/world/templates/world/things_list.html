@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+
+
+<!DOCTYPE html>
+{% block content %}
+{% load static %}
+{% load leaflet_tags %}
+
+
+  <head>
+    <meta charset="utf-8">
+    {% leaflet_js %}
+    {% leaflet_css %}
+    <script src="{% static 'leaflet.ajax.js' %}" charset="utf-8"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
+    <title>360 Photo Map</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+      function place_pos(map,options){
+        var dataset = L.geoJson.ajax("{% url 'world:pano_imgs' %}",{
+          onEachFeature: function(feature, layer) {
+            var str = feature.properties.picture.replace("static/","media/static/")
+            var thumb = str.replace(".JPG","_thumbnail.JPG")
+            layer.bindPopup("<div class='pin'><h1>"+feature.properties.title+"</h1><br><p>Click the picture to view the 360 photo.</p><a href={% url 'world:show' %}?link="+str+" ><img src="+thumb+"></a></div>",
+          {
+            maxWidth: "800px",
+            maxHeight: "800px",
+
+        })
+          }
+        });
+        dataset.addTo(map)
+
+
+      }
+
+
+    </script>
+    <style>
+      html, body {
+        height: 100%;
+      }
+      .leaflet-popup-pane {
+        color: #B6CEE2;
+        text-align: center;
+      }
+      .leaflet-container {  /* all maps */
+          width:  100%;
+          height: 100%;
+      }
+
+      #specialbigmap {
+          height: 800px;
+      }
+
+      /* Resize the "display_raw" textbox */
+      .django-leaflet-raw-textarea {
+          width: 100%;
+      }
+      #pin {
+        color: #B6CEE2;
+        text-align: center;
+      }
+    </style>
+
+    {% leaflet_map "gis" callback="window.place_pos" %}
+  </body>
+
+{% endblock %}

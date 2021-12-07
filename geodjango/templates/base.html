@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tanner Olason's Portfolio</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- start javascript for header slideshow -->
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.slideshow.js' %}"></script>
+    <script type="text/javascript">
+    	$(document).ready(function() {
+    		setTimeout(function(){
+    		$('.imageNavigation').slideShow({
+    			interval: 3
+    		});
+    		},3000);
+    	});
+    </script>
+    <!-- end javascript for header slideshow -->
+
+    <!-- start lightbox code -->
+    <link rel="stylesheet" href="{% static 'css/jquery.lightbox-0.5.css' %}" type="text/css" />
+    <script type="text/javascript" src="{% static 'js/jquery.lightbox-0.5.pack.js' %}"></script>
+    <script type="text/javascript">
+    $(function() {
+    	$('.lightbox').lightBox();
+    });
+    </script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header">
+        <div id="logo"><a class="nav-brand" href="{% url 'home' %}"><img src="{% static 'images/logo.jpg' %}" method="post"></a></div>
+        <!--end logo-->
+        <!--start main menu-->
+        <div id="menucontainer">
+          <ul>
+
+            <li><a href="{% url 'home' %}"
+              {% if current == 'home' %}
+                class='current'
+              {% endif %} >Home <br />
+              <span>where it begins</span></a></li>
+            <li><a href="{% url 'world:map' %}"
+              {% if current == 'world' %}
+                class='current'
+              {% endif %} >World Map <br />
+              <span>Photos</span></a></li>
+            <li><a href="{% url 'portfolio' %}"
+              {% if current == 'portfolio' %}
+                class='current'
+              {% endif %} >Portfolio <br />
+              <span>my work</span></a></li>
+            <li><a href="{% url 'blog' %}"
+              {% if current == 'blog' %}
+                class='current'
+              {% endif %} >Blog <br />
+              <span>Articles &amp; Info</span></a></li>
+            <li><a href="{% url 'about' %}"
+              {% if current == 'about' %}
+                class='current'
+              {% endif %} >About <br />
+              <span>Who I am</span></a></li>
+          </ul>
+        </div>
+        <!--end main menu-->
+      </div>
+      <!--end header-->
+    </div>
+    <div id="wrapper2">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    {{ geoform.media }}
+    {{ form.media }}
+    <meta charset="utf-8">
+    <title>add a thing?</title>
+  </head>
+  <body>
+    <h1>Add a location to the map. Simple!</h1>
+    <div id="map">
+      <form class="multipart/form-data" action="" method="post">
+        {% csrf_token %}
+          {{ form.as_p }}
+        <input type="submit" name="Submit" />
+      </form>
+      <div id="m" style="width: 1920px; height: 1080px;">
+      </div>
+
+    </div>
+  </body>
+</html>
